@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Savify — The Waitlist</title>
-    <link rel="icon" href="https://i.ibb.co/7tPC6B2r/gemini-2-5-flash-image-Make-this-Savify-S-logo-fully-flat-no-gradients-with-two-solid-tones-of-gr.jpg" type="image/jpeg">
+    <link rel="icon" href="https://i.ibb.co/fVyqMkfj/gemini-2-5-flash-image-Refine-this-Savify-S-logo-to-be-flatter-more-geometric-and-ultra-premium.png" type="image/png">
+
+    <link rel="preload" as="image" href="https://i.ibb.co/RpQDHtRg/Screenshot-2026-01-15-182854.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
@@ -25,8 +28,8 @@
             --text-main: #FFFFFF;
             --text-light: #E5E7EB;
             --text-muted: #9ca3af;
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-bg: rgba(15, 15, 15, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(15, 15, 15, 0.75); /* Slightly darker for better contrast */
             --mouse-x: 50%;
             --mouse-y: 50%;
         }
@@ -42,10 +45,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: auto;
+            overflow-x: hidden; /* Prevent horizontal scroll */
             position: relative;
             cursor: none;
-            transition: filter 1.5s cubic-bezier(0.23, 1, 0.32, 1);
             padding: 20px;
         }
 
@@ -61,30 +63,13 @@
             opacity: 0.4; z-index: 2; pointer-events: none;
         }
 
-        .grid-overlay {
-            position: fixed; top: 0; left: 0; width: 200%; height: 200%;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-100px);
-            animation: gridMove 20s linear infinite;
-            z-index: 0; pointer-events: none;
-            mask-image: linear-gradient(to bottom, transparent, black 40%, black 80%, transparent);
-        }
-
-        @keyframes gridMove {
-            0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-100px); }
-            100% { transform: perspective(500px) rotateX(60deg) translateY(50px) translateZ(-100px); }
-        }
-
         .mouse-spotlight {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 3;
             background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), 
-                       rgba(16, 185, 129, 0.15), 
-                       rgba(255, 215, 0, 0.05) 30%, 
-                       transparent 70%);
+                        rgba(16, 185, 129, 0.15), 
+                        rgba(255, 215, 0, 0.05) 30%, 
+                        transparent 70%);
             pointer-events: none;
         }
 
@@ -97,124 +82,134 @@
         .cursor-circle { width: 40px; height: 40px; border: 1px solid var(--primary); transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1); }
         body.hovering .cursor-circle { width: 60px; height: 60px; background-color: rgba(16, 185, 129, 0.1); border-color: var(--gold); }
 
-        /* --- GLASS CARD --- */
+        /* --- SINGLE COLUMN MOBILE CARD --- */
         .glass-card {
             position: relative; z-index: 10;
             background: var(--glass-bg); 
             border: 1px solid var(--glass-border);
             box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8), 
-                       inset 0 0 0 1px rgba(255,255,255,0.05),
-                       0 0 60px rgba(16, 185, 129, 0.1);
+                        inset 0 0 0 1px rgba(255,255,255,0.05),
+                        0 0 60px rgba(16, 185, 129, 0.1);
             backdrop-filter: blur(24px); 
             -webkit-backdrop-filter: blur(24px);
-            padding: 3.5rem 3rem; 
             border-radius: 24px;
             width: 100%; 
-            max-width: 480px;
+            /* RESTRICT WIDTH FOR MOBILE FEEL */
+            max-width: 450px; 
+            padding: 2.5rem 2rem;
             transform-style: preserve-3d; 
             transition: transform 0.1s, box-shadow 0.3s;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, 
-                       transparent, 
-                       var(--primary), 
-                       var(--gold), 
-                       var(--primary), 
-                       transparent);
-            opacity: 0.6;
-            z-index: 1;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--gold), var(--primary), transparent);
+            opacity: 0.6; z-index: 1;
         }
 
+        /* --- HEADER & LOGO --- */
         .brand-header { 
-            text-align: center; 
+            width: 100%;
             margin-bottom: 1.5rem; 
             transform: translateZ(40px); 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
-        .logo-icon { 
-            font-size: 3rem; 
-            color: var(--primary); 
-            margin-bottom: 1rem; 
-            filter: drop-shadow(0 0 20px var(--primary-glow));
+        .logo-icon img {
+            width: 65px; 
+            height: auto;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 15px var(--primary-glow));
             transition: transform 0.3s ease;
         }
-
-        .logo-icon:hover {
-            transform: scale(1.1) rotate(10deg);
-        }
+        .logo-icon:hover img { transform: scale(1.1); }
         
         h1.brand-name {
             font-family: 'Playfair Display', serif; 
-            font-size: 3.8rem; 
+            font-size: 2.8rem; 
             font-weight: 700; 
-            margin: 0 0 0.5rem 0;
             background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -0.5px;
+            line-height: 1.1;
+            margin-bottom: 0.2rem;
         }
 
         .subtitle { 
             color: var(--text-light); 
-            font-size: 1rem; 
+            font-size: 0.85rem; 
             letter-spacing: 3px; 
             text-transform: uppercase; 
             font-weight: 500; 
+            opacity: 0.8;
             margin-bottom: 0.5rem;
         }
 
-        .description {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            text-align: center;
-            margin-bottom: 2.5rem;
-            padding: 0 1rem;
-        }
-
-        .highlight-text {
-            color: var(--primary-light);
-            font-weight: 600;
-        }
-
-        /* --- WAITLIST TEXT --- */
-        .waitlist-text {
-            text-align: center;
+        /* --- VISUAL SECTION (SCREENSHOT) --- */
+        .visual-container {
+            width: 100%;
             margin-bottom: 2rem;
             transform: translateZ(30px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .waitlist-text h2 {
+        .visual-headline {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--gold-light) 0%, var(--primary-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .waitlist-text p {
+            font-size: 1.2rem;
+            font-weight: 500;
             color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .visual-headline span {
+            color: var(--text-main);
+            border-bottom: 1px solid var(--primary);
         }
 
-        /* --- INPUTS --- */
+        .mockup-wrapper {
+            position: relative;
+            width: 85%; /* Make it slightly smaller than container */
+            border-radius: 16px;
+            /* Simple hover effect, removed complex 3D tilt for performance */
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #000; /* Placeholder while loading */
+            overflow: hidden;
+        }
+
+        .mockup-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 16px;
+        }
+
+        .mockup-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.2), transparent 70%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* --- FORM ELEMENTS --- */
+        .form-container { width: 100%; transform: translateZ(20px); }
+
+        .waitlist-text { margin-bottom: 1rem; font-size: 0.95rem; color: var(--text-muted); }
+        .highlight-text { color: var(--primary-light); font-weight: 600; }
+
         .input-group { 
-            position: relative; 
-            margin-bottom: 1.8rem; 
-            transform: translateZ(20px); 
+            position: relative; margin-bottom: 1rem; 
         }
         
         .input-field {
@@ -223,328 +218,159 @@
             border: 1px solid var(--glass-border);
             border-radius: 12px; 
             padding: 1.2rem 1rem 0.6rem 1rem; 
-            height: 64px;
-            font-size: 1rem; 
+            height: 56px;
+            font-size: 0.95rem; 
             color: var(--text-main); 
             outline: none;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.3s;
             font-family: 'Inter', sans-serif;
-        }
-
-        .input-field:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.06);
         }
 
         .input-label {
-            position: absolute; 
-            left: 1rem; 
-            top: 50%; 
-            transform: translateY(-50%);
-            color: var(--text-muted); 
-            font-size: 1rem; 
-            pointer-events: none;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); font-size: 0.95rem; pointer-events: none;
+            transition: all 0.3s;
         }
 
         .input-field:focus, .input-field:not(:placeholder-shown) {
-            border-color: var(--primary); 
-            background: rgba(16, 185, 129, 0.08);
-            padding-top: 1.6rem; 
-            padding-bottom: 0.4rem; 
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1),
-                       inset 0 0 20px rgba(16, 185, 129, 0.05);
+            border-color: var(--primary); background: rgba(16, 185, 129, 0.08);
+            padding-top: 1.6rem; padding-bottom: 0.4rem; 
         }
 
         .input-field:focus ~ .input-label, .input-field:not(:placeholder-shown) ~ .input-label {
-            top: 0.8rem; 
-            font-size: 0.75rem; 
-            color: var(--primary); 
-            font-weight: 600; 
-            letter-spacing: 0.5px;
+            top: 0.8rem; font-size: 0.7rem; color: var(--primary); font-weight: 600; 
         }
 
-        /* --- BUTTON --- */
         .submit-btn {
-            width: 100%; 
-            height: 64px; 
-            margin-top: 0.5rem;
-            border: none; 
-            border-radius: 12px;
+            width: 100%; height: 56px; margin-top: 0.5rem;
+            border: none; border-radius: 12px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white; 
-            font-size: 1.1rem; 
-            font-weight: 600;
-            cursor: none; 
-            position: relative; 
-            overflow: hidden;
-            transform: translateZ(30px); 
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            color: white; font-size: 1.05rem; font-weight: 600;
+            cursor: none; position: relative; overflow: hidden;
+            transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
         }
 
         .submit-btn::before {
-            content: ''; 
-            position: absolute; 
-            top: 0; 
-            left: -100%; 
-            width: 100%; 
-            height: 100%;
-            background: linear-gradient(90deg, 
-                       transparent, 
-                       rgba(255, 255, 255, 0.2), 
-                       transparent);
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: 0.6s;
         }
 
-        .submit-btn:hover::before { 
-            left: 100%; 
-        }
-
+        .submit-btn:hover::before { left: 100%; }
         .submit-btn:hover { 
-            transform: translateZ(35px) translateY(-2px); 
-            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            transform: translateY(-2px); 
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
         }
 
-        .submit-btn:active {
-            transform: translateZ(30px) translateY(0);
-            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-content { 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 12px; 
-            width: 100%; 
-            height: 100%;
-            position: relative;
-            z-index: 2;
-        }
-
-        .btn-content i {
-            transition: transform 0.3s ease;
-        }
-
-        .submit-btn:hover .btn-content i {
-            transform: translateX(5px);
-        }
-
-        /* --- STATUS & EFFECTS --- */
-        .status-wrapper { 
-            height: 24px; 
-            margin-top: 1.5rem; 
-            perspective: 1000px; 
-        }
-
-        .status-msg { 
-            font-size: 0.95rem; 
-            text-align: center; 
-            opacity: 0; 
-            transform: rotateX(-90deg); 
-            transform-origin: top; 
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .status-msg.visible { 
-            opacity: 1; 
-            transform: rotateX(0deg); 
-        }
-
-        .status-msg.success { 
-            color: var(--primary); 
-            text-shadow: 0 0 10px rgba(16,185,129,0.3); 
-        }
-
-        .status-msg.error { 
-            color: #ff6b6b; 
-        }
+        .btn-content { display: flex; align-items: center; justify-content: center; gap: 12px; }
+        
+        /* --- STATUS & FOOTER --- */
+        .status-wrapper { height: 24px; margin-top: 1rem; perspective: 1000px; }
+        .status-msg { font-size: 0.9rem; justify-content: center; opacity: 0; transform: rotateX(-90deg); transition: all 0.5s; display: flex; align-items: center; gap: 8px; }
+        .status-msg.visible { opacity: 1; transform: rotateX(0deg); }
+        .status-msg.success { color: var(--primary); }
+        .status-msg.error { color: #ff6b6b; }
 
         .loader {
-            display: none; 
-            width: 24px; 
-            height: 24px; 
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: #fff; 
-            border-radius: 50%; 
-            animation: spin 0.8s linear infinite;
+            display: none; width: 24px; height: 24px; 
+            border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; 
+            border-radius: 50%; animation: spin 0.8s linear infinite;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @keyframes spin { 
-            to { 
-                transform: rotate(360deg); 
-            } 
-        }
+        .footer { margin-top: 2rem; color: var(--text-muted); font-size: 0.8rem; opacity: 0.6; }
 
-        /* Distortion Classes */
-        body.distortion-active { 
-            filter: hue-rotate(90deg) contrast(150%); 
-            animation: timeDilation 2s cubic-bezier(0.23, 1, 0.32, 1) forwards; 
-        }
-
+        /* Effects */
+        body.distortion-active { filter: hue-rotate(90deg) contrast(150%); animation: timeDilation 2s forwards; }
         @keyframes timeDilation { 
             0% { filter: hue-rotate(0deg) contrast(100%); } 
             30% { filter: hue-rotate(180deg) contrast(200%) blur(1px); } 
             100% { filter: hue-rotate(0deg) contrast(100%); } 
         }
-        
-        .reality-crack {
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: 9;
-            pointer-events: none; 
-            opacity: 0;
-            background-image: linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.1) 50%, transparent 51%);
-            background-size: 60px 60px; 
-            mix-blend-mode: overlay;
-        }
-
         .bass-drop {
-            position: fixed; 
-            top: 50%; 
-            left: 50%; 
-            width: 0; 
-            height: 0;
-            border-radius: 50%; 
+            position: fixed; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; 
             background: radial-gradient(circle, transparent 0%, var(--primary) 100%);
-            z-index: 8; 
-            pointer-events: none; 
-            opacity: 0; 
-            transform: translate(-50%, -50%); 
-            mix-blend-mode: screen;
-        }
-
-        /* --- FOOTER --- */
-        .footer {
-            margin-top: 2.5rem;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            transform: translateZ(20px);
-        }
-
-        .footer span {
-            opacity: 0.7;
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 600px) { 
-            body {
-                padding: 15px;
-            }
-            
-            .glass-card { 
-                margin: 1rem; 
-                padding: 2.5rem 2rem; 
-                max-width: 100%;
-            } 
-            
-            h1.brand-name { 
-                font-size: 3rem; 
-            }
-            
-            .logo-icon {
-                font-size: 2.5rem;
-            }
-            
-            .waitlist-text h2 {
-                font-size: 1.7rem;
-            }
-            
-            .subtitle {
-                font-size: 0.9rem;
-                letter-spacing: 2px;
-            }
-            
-            .description {
-                font-size: 0.9rem;
-                padding: 0;
-            }
+            z-index: 8; pointer-events: none; opacity: 0; transform: translate(-50%, -50%); mix-blend-mode: screen;
         }
 
         @media (max-width: 400px) {
-            .glass-card { 
-                padding: 2rem 1.5rem; 
-            }
-            
-            h1.brand-name { 
-                font-size: 2.5rem; 
-            }
-            
-            .waitlist-text h2 {
-                font-size: 1.5rem;
-            }
+            .glass-card { padding: 2rem 1.5rem; }
+            h1.brand-name { font-size: 2.4rem; }
+            .visual-headline { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
     <div class="bg-noise"></div>
-    <div class="grid-overlay"></div>
     <div class="mouse-spotlight"></div>
     <canvas id="canvas-bg"></canvas>
     
-    <div class="reality-crack" id="realityCrack"></div>
     <div class="bass-drop" id="bassDrop"></div>
 
     <div class="cursor-dot"></div>
     <div class="cursor-circle"></div>
 
-    <div class="glass-card" id="tiltCard" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.15">
+    <div class="glass-card" id="tiltCard" data-tilt data-tilt-max="3" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.1">
         
         <div class="brand-header">
-            <div class="logo-icon"><i class="fas fa-chart-pie"></i></div>
+            <div class="logo-icon">
+                <img src="https://i.ibb.co/v441FQJ1/gemini-2-5-flash-image-Refine-this-Savify-S-logo-to-be-flatter-more-geometric-and-ultra-premium.png" alt="Savify Logo">
+            </div>
             <h1 class="brand-name" id="reactiveTitle">Savify</h1>
             <p class="subtitle">Financial Intelligence</p>
-            <p class="description">AI-powered insights for smarter financial decisions</p>
         </div>
 
-        <!-- ADDED WAITLIST TEXT SECTION -->
-        <div class="waitlist-text">
-            <h2>Join The Waitlist</h2>
-            <p>Get <span class="highlight-text">early access</span> to our revolutionary financial intelligence platform.<br>
-            Be among the first to experience smarter money management.</p>
+        <div class="visual-container">
+            <h2 class="visual-headline">See how your <span>money decisions rank.</span></h2>
+            <div class="mockup-wrapper">
+                <div class="mockup-glow"></div>
+                <a href="https://ibb.co/kgqSczNG" target="_blank" style="cursor: none;">
+                    <img 
+                        src="https://i.ibb.co/RpQDHtRg/Screenshot-2026-01-15-182854.png" 
+                        alt="Savify Mobile Dashboard Screenshot" 
+                        border="0"
+                        decoding="async"
+                        loading="eager"
+                    >
+                </a>
+            </div>
         </div>
 
-        <form id="waitlistForm">
-            <div class="input-group">
-                <input type="text" id="fullName" class="input-field" placeholder=" " required autocomplete="name">
-                <label class="input-label">Full Name</label>
-            </div>
+        <div class="form-container">
+            <p class="waitlist-text">Join the <span class="highlight-text">exclusive waitlist</span>.</p>
 
-            <div class="input-group">
-                <input type="email" id="email" class="input-field" placeholder=" " required autocomplete="email">
-                <label class="input-label">Email Address</label>
-            </div>
-
-            <button type="submit" class="submit-btn hover-trigger">
-                <div class="btn-content" id="btnContent">
-                    <span>Get Early Access</span>
-                    <i class="fas fa-arrow-right"></i>
+            <form id="waitlistForm">
+                <div class="input-group">
+                    <input type="text" id="fullName" class="input-field" placeholder=" " required autocomplete="name">
+                    <label class="input-label">Full Name</label>
                 </div>
-                <div class="loader" id="loader"></div>
-            </button>
-        </form>
 
-        <div class="status-wrapper">
-            <div id="statusMsg" class="status-msg"></div>
+                <div class="input-group">
+                    <input type="email" id="email" class="input-field" placeholder=" " required autocomplete="email">
+                    <label class="input-label">Email Address</label>
+                </div>
+
+                <button type="submit" class="submit-btn hover-trigger">
+                    <div class="btn-content" id="btnContent">
+                        <span>Get Early Access</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="loader" id="loader"></div>
+                </button>
+            </form>
+
+            <div class="status-wrapper">
+                <div id="statusMsg" class="status-msg"></div>
+            </div>
+
+            <div class="footer">
+                <span>Launching soon</span>
+            </div>
         </div>
 
-        <!-- ADDED FOOTER -->
-        <div class="footer">
-            <span>Limited spots available • Join today</span>
-        </div>
     </div>
 
     <script>
@@ -576,14 +402,13 @@
                 cursorDot.style.left = mouseX + 'px';
                 cursorDot.style.top = mouseY + 'px';
                 
-                // Update Reactive Variables
                 const xPct = mouseX / window.innerWidth;
                 const yPct = mouseY / window.innerHeight;
                 root.style.setProperty('--mouse-x', `${xPct * 100}%`);
                 root.style.setProperty('--mouse-y', `${yPct * 100}%`);
+                
                 if(reactiveTitle) {
-                    // Subtle animation on title
-                    reactiveTitle.style.transform = `translateX(${(xPct - 0.5) * 10}px) translateY(${(yPct - 0.5) * 10}px)`;
+                    reactiveTitle.style.transform = `translateX(${(xPct - 0.5) * 5}px) translateY(${(yPct - 0.5) * 5}px)`;
                 }
             });
 
@@ -596,20 +421,11 @@
             }
             animateCursor();
 
-            const interactiveEls = document.querySelectorAll('input, button, .logo-icon, .submit-btn');
+            // Hover effects
+            const interactiveEls = document.querySelectorAll('input, button, a, .logo-icon');
             interactiveEls.forEach(el => {
                 el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
                 el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
-            });
-
-            // Add subtle hover effect to glass card
-            const glassCard = document.querySelector('.glass-card');
-            glassCard.addEventListener('mouseenter', () => {
-                glassCard.style.boxShadow = '0 50px 100px -30px rgba(0,0,0,0.9), inset 0 0 0 1px rgba(255,255,255,0.05), 0 0 80px rgba(16, 185, 129, 0.15)';
-            });
-            
-            glassCard.addEventListener('mouseleave', () => {
-                glassCard.style.boxShadow = '0 40px 80px -20px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.05), 0 0 60px rgba(16, 185, 129, 0.1)';
             });
 
             // --- 3. CANVAS BACKGROUND ---
@@ -653,7 +469,7 @@
                 }
             }
 
-            for (let i = 0; i < 80; i++) particles.push(new Particle());
+            for (let i = 0; i < 60; i++) particles.push(new Particle());
 
             function animateCanvas() {
                 ctx.clearRect(0, 0, width, height);
@@ -663,9 +479,9 @@
                     const dx = mouseX - particles[i].x;
                     const dy = mouseY - particles[i].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 180) {
+                    if (dist < 150) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(16, 185, 129, ${0.25 - dist/180})`;
+                        ctx.strokeStyle = `rgba(16, 185, 129, ${0.2 - dist/150})`;
                         ctx.lineWidth = 1;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(mouseX, mouseY);
@@ -676,33 +492,16 @@
             }
             animateCanvas();
 
-            // --- 4. ANIMATION HELPERS ---
-            function playSuccessSound() {
-                try {
-                    const AudioContext = window.AudioContext || window.webkitAudioContext;
-                    if (!AudioContext) return;
-                    const ctx = new AudioContext();
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(440, ctx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.1);
-                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start();
-                    osc.stop(ctx.currentTime + 0.5);
-                } catch (e) { console.log("Audio skipped"); }
-            }
+            // --- 4. FORM LOGIC & EFFECTS ---
+            const form = document.getElementById('waitlistForm');
+            const btnContent = document.getElementById('btnContent');
+            const loader = document.getElementById('loader');
+            const statusMsg = document.getElementById('statusMsg');
 
-            function triggerRealityEffects() {
+            function triggerSuccessEffects() {
                 const bassDrop = document.getElementById('bassDrop');
-                const realityCrack = document.getElementById('realityCrack');
-                
                 document.body.classList.add('distortion-active');
                 
-                // Enhanced Bass Drop Visual
                 bassDrop.style.width = '120vmax'; 
                 bassDrop.style.height = '120vmax'; 
                 bassDrop.style.opacity = '0.6';
@@ -711,28 +510,12 @@
                     {transform:'translate(-50%,-50%) scale(1.8)', opacity:0.8},
                     {transform:'translate(-50%,-50%) scale(2)', opacity:0}
                 ], {duration:1200, easing: 'cubic-bezier(0.23, 1, 0.32, 1)'});
-                
-                // Enhanced Crack Visual
-                realityCrack.style.opacity = '0.8';
-                realityCrack.animate([
-                    {transform:'scale(0.5) rotate(0deg)', opacity:0}, 
-                    {transform:'scale(1.5) rotate(180deg)', opacity:0.6},
-                    {transform:'scale(2) rotate(360deg)', opacity:0}
-                ], {duration:1800, easing: 'cubic-bezier(0.23, 1, 0.32, 1)'});
 
                 setTimeout(() => document.body.classList.remove('distortion-active'), 2000);
             }
 
-            // --- 5. FORM SUBMISSION ---
-            const form = document.getElementById('waitlistForm');
-            const btnContent = document.getElementById('btnContent');
-            const loader = document.getElementById('loader');
-            const statusMsg = document.getElementById('statusMsg');
-
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                
-                // UI Loading
                 btnContent.style.display = 'none';
                 loader.style.display = 'block';
                 statusMsg.className = 'status-msg'; 
@@ -741,36 +524,18 @@
                 const name = document.getElementById('fullName').value.trim();
                 const email = document.getElementById('email').value.trim();
 
-                // Simple validation
-                if (!name || !email) {
-                    statusMsg.textContent = "Please fill in all fields";
-                    statusMsg.classList.add('visible', 'error');
-                    loader.style.display = 'none';
-                    btnContent.style.display = 'flex';
-                    return;
-                }
-
                 try {
-                    // SUPABASE INSERT
                     const { error } = await supabase.from('waitlist').insert([{ name, email }]);
-                    
                     if (error) {
                         if (error.code === '23505') throw new Error("You're already on the waitlist! 🎉");
                         throw error;
                     }
 
-                    // SUCCESS
-                    playSuccessSound();
-                    triggerRealityEffects();
-                    
+                    triggerSuccessEffects();
                     statusMsg.innerHTML = '<i class="fas fa-check-circle"></i> Welcome aboard! Early access granted.';
                     statusMsg.classList.add('visible', 'success');
                     
-                    // Reset form after success
-                    setTimeout(() => {
-                        form.reset();
-                    }, 2000);
-
+                    setTimeout(() => form.reset(), 2000);
                 } catch (err) {
                     console.error(err);
                     statusMsg.textContent = err.message || "Connection issue. Please try again.";
@@ -778,23 +543,14 @@
                 } finally {
                     loader.style.display = 'none';
                     btnContent.style.display = 'flex';
-                    
-                    // Clear status message after 5 seconds
-                    setTimeout(() => {
-                        statusMsg.classList.remove('visible');
-                    }, 5000);
+                    setTimeout(() => statusMsg.classList.remove('visible'), 5000);
                 }
             });
 
-            // Initialize Vanilla Tilt
+            // Vanilla Tilt Init
             if (typeof VanillaTilt !== 'undefined') {
                 VanillaTilt.init(document.querySelectorAll('[data-tilt]'), {
-                    max: 8,
-                    speed: 400,
-                    glare: true,
-                    'max-glare': 0.15,
-                    scale: 1.02,
-                    gyroscope: false
+                    max: 3, speed: 400, glare: true, 'max-glare': 0.1
                 });
             }
         });
