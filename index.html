@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Savify — The Waitlist</title>
-    <link rel="icon" href="https://i.ibb.co/fVyqMkfj/gemini-2-5-flash-image-Refine-this-Savify-S-logo-to-be-flatter-more-geometric-and-ultra-premium.png" type="image/png">
+    <link rel="icon" href="https://wsrv.nl/?url=https://i.ibb.co/fVyqMkfj/gemini-2-5-flash-image-Refine-this-Savify-S-logo-to-be-flatter-more-geometric-and-ultra-premium.png&w=64&output=webp" type="image/webp">
 
-    <link rel="preload" as="image" href="https://i.ibb.co/RpQDHtRg/Screenshot-2026-01-15-182854.png">
+    <link rel="preload" as="image" href="https://wsrv.nl/?url=https://i.ibb.co/RpQDHtRg/Screenshot-2026-01-15-182854.png&w=800&output=webp&q=80" fetchpriority="high">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
             --text-light: #E5E7EB;
             --text-muted: #9ca3af;
             --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-bg: rgba(15, 15, 15, 0.75); /* Slightly darker for better contrast */
+            --glass-bg: rgba(15, 15, 15, 0.75);
             --mouse-x: 50%;
             --mouse-y: 50%;
         }
@@ -45,7 +45,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
             position: relative;
             cursor: none;
             padding: 20px;
@@ -82,7 +82,7 @@
         .cursor-circle { width: 40px; height: 40px; border: 1px solid var(--primary); transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1); }
         body.hovering .cursor-circle { width: 60px; height: 60px; background-color: rgba(16, 185, 129, 0.1); border-color: var(--gold); }
 
-        /* --- SINGLE COLUMN MOBILE CARD --- */
+        /* --- GLASS CARD --- */
         .glass-card {
             position: relative; z-index: 10;
             background: var(--glass-bg); 
@@ -94,7 +94,6 @@
             -webkit-backdrop-filter: blur(24px);
             border-radius: 24px;
             width: 100%; 
-            /* RESTRICT WIDTH FOR MOBILE FEEL */
             max-width: 450px; 
             padding: 2.5rem 2rem;
             transform-style: preserve-3d; 
@@ -111,10 +110,10 @@
             opacity: 0.6; z-index: 1;
         }
 
-        /* --- HEADER & LOGO --- */
+        /* --- HEADER --- */
         .brand-header { 
             width: 100%;
-            margin-bottom: 1.5rem; 
+            margin-bottom: 1.2rem; 
             transform: translateZ(40px); 
             display: flex;
             flex-direction: column;
@@ -153,57 +152,28 @@
             margin-bottom: 0.5rem;
         }
 
-        /* --- VISUAL SECTION (SCREENSHOT) --- */
-        .visual-container {
-            width: 100%;
-            margin-bottom: 2rem;
-            transform: translateZ(30px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .visual-headline {
+        /* --- HEADLINE (Moved Up) --- */
+        .main-headline {
             font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 500;
             color: var(--text-muted);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            transform: translateZ(35px);
+            line-height: 1.4;
         }
         
-        .visual-headline span {
+        .main-headline span {
             color: var(--text-main);
             border-bottom: 1px solid var(--primary);
         }
 
-        .mockup-wrapper {
-            position: relative;
-            width: 85%; /* Make it slightly smaller than container */
-            border-radius: 16px;
-            /* Simple hover effect, removed complex 3D tilt for performance */
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-            background: #000; /* Placeholder while loading */
-            overflow: hidden;
-        }
-
-        .mockup-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 16px;
-        }
-
-        .mockup-glow {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.2), transparent 70%);
-            z-index: 2;
-            pointer-events: none;
-        }
-
         /* --- FORM ELEMENTS --- */
-        .form-container { width: 100%; transform: translateZ(20px); }
+        .form-container { 
+            width: 100%; 
+            transform: translateZ(30px);
+            margin-bottom: 2rem;
+        }
 
         .waitlist-text { margin-bottom: 1rem; font-size: 0.95rem; color: var(--text-muted); }
         .highlight-text { color: var(--primary-light); font-weight: 600; }
@@ -266,7 +236,6 @@
 
         .btn-content { display: flex; align-items: center; justify-content: center; gap: 12px; }
         
-        /* --- STATUS & FOOTER --- */
         .status-wrapper { height: 24px; margin-top: 1rem; perspective: 1000px; }
         .status-msg { font-size: 0.9rem; justify-content: center; opacity: 0; transform: rotateX(-90deg); transition: all 0.5s; display: flex; align-items: center; gap: 8px; }
         .status-msg.visible { opacity: 1; transform: rotateX(0deg); }
@@ -280,7 +249,60 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .footer { margin-top: 2rem; color: var(--text-muted); font-size: 0.8rem; opacity: 0.6; }
+        /* --- DASHBOARD SECTION (Bottom) --- */
+        .dashboard-container {
+            width: 100%;
+            margin-top: 1rem;
+            transform: translateZ(20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .mockup-wrapper {
+            position: relative;
+            width: 85%;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #000;
+            overflow: hidden;
+            aspect-ratio: 9/16;
+        }
+
+        .mockup-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 16px;
+        }
+
+        .mockup-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.2), transparent 70%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .footer { 
+            margin-top: 2rem; 
+            color: var(--text-muted); 
+            font-size: 0.8rem; 
+            opacity: 0.6;
+            transform: translateZ(20px);
+        }
 
         /* Effects */
         body.distortion-active { filter: hue-rotate(90deg) contrast(150%); animation: timeDilation 2s forwards; }
@@ -298,7 +320,7 @@
         @media (max-width: 400px) {
             .glass-card { padding: 2rem 1.5rem; }
             h1.brand-name { font-size: 2.4rem; }
-            .visual-headline { font-size: 1rem; }
+            .main-headline { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -317,27 +339,13 @@
         
         <div class="brand-header">
             <div class="logo-icon">
-                <img src="https://i.ibb.co/v441FQJ1/gemini-2-5-flash-image-Refine-this-Savify-S-logo-to-be-flatter-more-geometric-and-ultra-premium.png" alt="Savify Logo">
+                <img src="https://wsrv.nl/?url=https://i.ibb.co/v441FQJ1/gemini-2-5-flash-image-Refine-this-Savify-S-logo-to-be-flatter-more-geometric-and-ultra-premium.png&w=150&output=webp" alt="Savify Logo">
             </div>
             <h1 class="brand-name" id="reactiveTitle">Savify</h1>
             <p class="subtitle">Financial Intelligence</p>
         </div>
 
-        <div class="visual-container">
-            <h2 class="visual-headline">See how your <span>money decisions rank.</span></h2>
-            <div class="mockup-wrapper">
-                <div class="mockup-glow"></div>
-                <a href="https://ibb.co/kgqSczNG" target="_blank" style="cursor: none;">
-                    <img 
-                        src="https://i.ibb.co/RpQDHtRg/Screenshot-2026-01-15-182854.png" 
-                        alt="Savify Mobile Dashboard Screenshot" 
-                        border="0"
-                        decoding="async"
-                        loading="eager"
-                    >
-                </a>
-            </div>
-        </div>
+        <h2 class="main-headline">See how your <span>money decisions rank.</span></h2>
 
         <div class="form-container">
             <p class="waitlist-text">Join the <span class="highlight-text">exclusive waitlist</span>.</p>
@@ -365,10 +373,29 @@
             <div class="status-wrapper">
                 <div id="statusMsg" class="status-msg"></div>
             </div>
+        </div>
 
-            <div class="footer">
-                <span>Launching soon</span>
+        <div class="dashboard-container">
+            <p class="dashboard-label">Live Dashboard Preview</p>
+            <div class="mockup-wrapper">
+                <div class="mockup-glow"></div>
+                <a href="https://ibb.co/kgqSczNG" target="_blank" style="cursor: none;">
+                    <img 
+                        src="https://wsrv.nl/?url=https://i.ibb.co/RpQDHtRg/Screenshot-2026-01-15-182854.png&w=800&output=webp&q=80" 
+                        alt="Savify Mobile Dashboard Screenshot" 
+                        border="0"
+                        decoding="async"
+                        fetchpriority="high"
+                        loading="eager"
+                        width="800"
+                        height="auto"
+                    >
+                </a>
             </div>
+        </div>
+
+        <div class="footer">
+            <span>Launching soon</span>
         </div>
 
     </div>
